@@ -1,0 +1,31 @@
+{% load static %}
+{% load user_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Meu Site{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Bem-vindo ao Meu Site</h1>
+        {% if user.is_authenticated %}
+            <p>Olá, {{ user.username }}
+            {% if user|has_group:"Personal" %}
+                (Personal)
+            {% else %}
+                (Aluno)
+            {% endif %}
+            | <a href="{% url 'usuario:logout' %}">Logout</a></p>
+        {% else %}
+            <p>Você não está logado | <a href="{% url 'usuario:login' %}">Login</a></p>
+        {% endif %}
+    </header>
+    <div>
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
