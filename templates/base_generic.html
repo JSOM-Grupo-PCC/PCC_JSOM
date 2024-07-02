@@ -13,14 +13,20 @@
         <h1>Bem-vindo ao Meu Site</h1>
         {% if user.is_authenticated %}
             <p>Olá, {{ user.username }}
-            {% if user|has_group:"Personal" %}
-                (Personal)
-            {% else %}
-                (Aluno)
-            {% endif %}
-            | <a href="{% url 'usuario:logout' %}">Logout</a></p>
+                {% if user|has_group:"Personal" %}
+                    (Personal)
+                    | <a href="{% url 'usuario:lista_alunos' %}">lista de alunos</a>
+                {% else %}
+                    (Aluno) 
+                    | <a href="{% url 'avaliacoes:lista_avaliacoes' user.id %}">Minhas avaliações</a>
+                {% endif %}     
+                | <a href="{% url 'usuario:logout' %}">Logout</a> 
+            </p>
         {% else %}
-            <p>Você não está logado | <a href="{% url 'usuario:login' %}">Login</a></p>
+            <p>Você não está logado 
+                | <a href="{% url 'usuario:login' %}">Login</a>
+                | <a href="{% url "usuario:register" %}">register</a>
+            </p>
         {% endif %}
     </header>
     <div>

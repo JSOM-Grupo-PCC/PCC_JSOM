@@ -1,0 +1,12 @@
+<!-- templates/avaliacoes/avaliacao_detail.html -->
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Detalhes da Avaliação</h1>
+  <p>Profissional: {{ avaliacao.profissional.username }}</p>
+  <p>Aluno: {{ avaliacao.aluno.username }}</p>
+  <p>Peso: {{ avaliacao.peso }}</p>
+  <p>Altura: {{ avaliacao.altura }}</p>
+  <p>Observações: {{ avaliacao.observacao }}</p>
+  <p>Data da Avaliação: {{ avaliacao.data_avaliacao }}</p>
+{% endblock %}

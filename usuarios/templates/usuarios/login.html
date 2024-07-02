@@ -1,6 +1,5 @@
 {% extends "base_generic.html" %}
 {% block content %}
-<a href="{% url "usuario:register" %}">register</a>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}

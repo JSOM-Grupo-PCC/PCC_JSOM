@@ -23,22 +23,22 @@ def lista_alunos(request):
 
 @login_required
 @personal_required
-def aluno_updade(request, user_id):
-    user = get_object_or_404(Usuario, id=user_id)
+def aluno_updade(request, aluno_id):
+    aluno = get_object_or_404(Usuario, id=aluno_id)
     if request.method == 'POST':
-        form = UserEditForm(request.POST, instance=user)
+        form = UserEditForm(request.POST, instance=aluno)
         if form.is_valid():
             form.save()
-            return redirect(reverse('usuario:aluno_perfil', args=[user.id]))
+            return redirect(reverse('usuario:aluno_perfil', args=[aluno.id]))
     else:
-        form = UserEditForm(instance=user)
-    return render(request, 'usuarios/aluno_updade.html', {'form': form, 'user': user})
+        form = UserEditForm(instance=aluno)
+    return render(request, 'usuarios/aluno_updade.html', {'form': form, 'aluno': aluno})
 
 @login_required
 @personal_required
-def aluno_perfil(request, user_id):
-    user = get_object_or_404(Usuario, id=user_id)
-    return render(request, 'usuarios/aluno_perfil.html', {'user': user})
+def aluno_perfil(request, aluno_id):
+    aluno = get_object_or_404(Usuario, id=aluno_id)
+    return render(request, 'usuarios/aluno_perfil.html', {'aluno': aluno})
 
 def user_login(request):
     if request.method == 'POST':

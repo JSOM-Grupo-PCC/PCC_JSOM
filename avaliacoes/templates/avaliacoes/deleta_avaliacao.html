@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Deletar Avaliação</h1>
+  <p>Tem certeza que deseja deletar esta avaliação?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Deletar</button>
+  </form>
+{% endblock %}

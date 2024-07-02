@@ -1,11 +1,11 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<h2>Alterar dados de {{ user.username }}</h2>
+<h2>Alterar dados de {{ aluno.username }}</h2>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Salvar Alterações</button>
 </form>
-<a href="{% url 'usuario:aluno_perfil' user.id %}">Voltar ao Perfil</a>
+<a href="{% url 'usuario:aluno_perfil' aluno.id %}">Voltar ao Perfil</a>
 {% endblock %}
