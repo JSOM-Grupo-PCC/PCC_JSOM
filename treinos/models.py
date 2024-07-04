@@ -1,13 +1,14 @@
 from django.db import models
+from exercicios.models import Exercicio
 from programas.models import Programa
 
 class Treino(models.Model):
-    serie = models.IntegerField()
-    repeticoes = models.IntegerField()
-    carga = models.DecimalField(max_digits=6, decimal_places=2)
-    status = models.CharField(max_length=10, choices=[('pendente', 'Pendente'), ('completo', 'Completo')])
-    exercicio = models.ForeignKey('exercicios.Exercicio', on_delete=models.CASCADE)
     programa = models.ForeignKey(Programa, on_delete=models.CASCADE)
+    serie = models.PositiveIntegerField()
+    repeticoes = models.PositiveIntegerField()
+    carga = models.FloatField()
+    status = models.BooleanField(default=False)
+    exercicio = models.ForeignKey(Exercicio, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.exercicio.nome} - {self.status}"
+        return f"Treino de {self.exercicio.nome} do Programa {self.programa.tipo}"

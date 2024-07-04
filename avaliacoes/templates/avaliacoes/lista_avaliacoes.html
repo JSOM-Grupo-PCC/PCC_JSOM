@@ -2,12 +2,14 @@
 {% load user_tags %}
 {% block content %}
   <h1>Avaliações de {{ aluno.username }}</h1>
+  {% if user|has_group:"Personal" %}  
+    <a href="{% url 'avaliacoes:cria_avaliacao' aluno.id %}">Adicionar Avaliação</a>
+  {% endif %} 
   <ul>
     {% for avaliacao in avaliacoes %}
       <li>
         {{ avaliacao.data_avaliacao }} - {{ avaliacao.peso }}kg - {{ avaliacao.altura }}m
         {% if user|has_group:"Personal" %}  
-          <a href="{% url 'avaliacoes:cria_avaliacao' aluno.id %}">Adicionar Avaliação</a>
           <a href="{% url 'avaliacoes:atualiza_avaliacao' avaliacao.id %}">Editar</a>
           <a href="{% url 'avaliacoes:deleta_avaliacao' avaliacao.id %}">Deletar</a>
         {% else %}
