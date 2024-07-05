@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Exercicio, GrupoMuscular
+from exercicios.models import Exercicio, GrupoMuscular
 
 @admin.register(GrupoMuscular)
 class GrupoMuscularAdmin(admin.ModelAdmin):

@@ -1,0 +1,16 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h2>{% if form.instance.pk %}Editar{% else %}Adicionar{% endif %} Exercício</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {% if form.instance.imagem %}
+      <div>
+        <img src="{{ form.instance.imagem.url }}" alt="{{ form.instance.nome }}" style="max-width: 200px; max-height: 200px;">
+      </div>
+    {% endif %}
+    <button type="submit">Salvar</button>
+  </form>
+  
+{% endblock %}

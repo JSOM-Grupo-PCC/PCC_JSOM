@@ -1,13 +1,49 @@
 # views.py
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required, user_passes_test
-from exercicios.models import GrupoMuscular
-from exercicios.forms import GrupoMuscularForm
+from django.contrib.auth.decorators import user_passes_test
+from exercicios.models import GrupoMuscular, Exercicio
+from exercicios.forms import GrupoMuscularForm, ExercicioForm
 
 def is_personal(user):
     return user.groups.filter(name="Personal").exists()
 
 personal_required = user_passes_test(is_personal, login_url='usuario:login')
+
+@personal_required
+def exercicio_list(request):
+    exercicios = Exercicio.objects.all()
+    return render(request, 'exercicios/exercicio_list.html', {'exercicios': exercicios})
+
+@personal_required
+def exercicio_create(request):
+    if request.method == 'POST':
+        form = ExercicioForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('exercicios:exercicio_list')
+    else:
+        form = ExercicioForm()
+    return render(request, 'exercicios/exercicio_form.html', {'form': form})
+
+@personal_required
+def exercicio_update(request, pk):
+    exercicio = get_object_or_404(Exercicio, pk=pk)
+    if request.method == 'POST':
+        form = ExercicioForm(request.POST, request.FILES, instance=exercicio)
+        if form.is_valid():
+            form.save()
+            return redirect('exercicios:exercicio_list')
+    else:
+        form = ExercicioForm(instance=exercicio)
+    return render(request, 'exercicios/exercicio_form.html', {'form': form})
+
+@personal_required
+def exercicio_delete(request, pk):
+    exercicio = get_object_or_404(Exercicio, pk=pk)
+    if request.method == 'POST':
+        exercicio.delete()
+        return redirect('exercicios:exercicio_list')
+    return render(request, 'exercicios/exercicio_confirm_delete.html', {'exercicio': exercicio})
 
 @personal_required
 def grupo_muscular_list(request):

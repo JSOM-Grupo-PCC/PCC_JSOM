@@ -17,6 +17,7 @@
                     (Personal)
                     | <a href="{% url 'usuario:lista_alunos' %}">lista de alunos</a>
                     | <a href="{% url 'exercicios:grupo_muscular_list' %}">Grupos Musculares</a>
+                    | <a href="{% url 'exercicios:exercicio_list' %}">Exercicios</a>
                 {% else %}
                     (Aluno) 
                     | <a href="{% url 'avaliacoes:lista_avaliacoes' user.id %}">Minhas avaliações</a>
