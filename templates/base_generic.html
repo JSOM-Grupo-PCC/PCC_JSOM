@@ -16,6 +16,7 @@
                 {% if user|has_group:"Personal" %}
                     (Personal)
                     | <a href="{% url 'usuario:lista_alunos' %}">lista de alunos</a>
+                    | <a href="{% url 'exercicios:grupo_muscular_list' %}">Grupos Musculares</a>
                 {% else %}
                     (Aluno) 
                     | <a href="{% url 'avaliacoes:lista_avaliacoes' user.id %}">Minhas avaliações</a>

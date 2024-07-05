@@ -1,0 +1,11 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h2>Deletar Grupo Muscular</h2>
+  <p>Tem certeza que deseja deletar "{{ grupo.nome }}"?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Deletar</button>
+  </form>
+  <a href="{% url 'exercicios:grupo_muscular_list' %}">Cancelar</a>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h2>Grupos Musculares</h2>
+  <a href="{% url 'exercicios:grupo_muscular_create' %}">Adicionar Novo Grupo Muscular</a>
+  <ul>
+    {% for grupo in grupos %}
+      <li>
+        {{ grupo.nome }}
+        <a href="{% url 'exercicios:grupo_muscular_update' grupo.pk %}">Editar</a>
+        <a href="{% url 'exercicios:grupo_muscular_delete' grupo.pk %}">Deletar</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
