@@ -1,14 +1,9 @@
 from django.contrib import admin
-from .models import Programa
+from .models import Treino
 
-class ExercicioInline(admin.TabularInline):
-    model = Programa.exercicios.through
-    extra = 1
-
-@admin.register(Programa)
-class ProgramaAdmin(admin.ModelAdmin):
+@admin.register(Treino)
+class TreinoAdmin(admin.ModelAdmin):
     list_display = ('tipo', 'personal', 'aluno', 'descricao')
     search_fields = ('tipo', 'personal__username', 'aluno__username')
     list_filter = ('tipo',)
-    inlines = [ExercicioInline]
     ordering = ('tipo',)

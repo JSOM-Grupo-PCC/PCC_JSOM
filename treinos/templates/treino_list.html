@@ -1,0 +1,21 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h2>Exercicios</h2>
+  <a href="{% url 'treino_create' treino_id %}">Adicionar Novo Exercicios</a>
+  <ul>
+    {% for treino in treinos %}
+      <li>
+        {{ treino.exercicio.nome }} - Série: {{ treino.serie }}, Repetições: {{ treino.repeticoes }},         
+        Carga: 
+        {% if treino.carga %}
+          {{ treino.carga }}kg
+        {% else %}
+          Peso corporal
+        {% endif %}
+        <a href="{% url 'treino_update' treino_id treino.pk %}">Editar</a>
+        <a href="{% url 'treino_delete' treino_id treino.pk %}">Deletar</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

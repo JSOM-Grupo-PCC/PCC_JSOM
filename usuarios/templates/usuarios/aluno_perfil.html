@@ -7,7 +7,9 @@
 <p>CPF: {{ aluno.cpf }}</p>
 <p>Endereço: {{ aluno.endereco }}</p>
 <p>Data de nascimento: {{ aluno.data_nascimento }}</p>
-<!-- Outros campos -->
+
+<!-- Ações no Aluno -->
 <a href="{% url 'usuario:aluno_updade' aluno.id %}">Editar</a>
-<a href="{% url 'avaliacoes:lista_avaliacoes' aluno.id %}">avaliar</a>
+<a href="{% url 'avaliacoes:lista_avaliacoes' aluno.id %}">Avaliar</a>
+<a href="{% url 'programa_list' aluno.id %}">Gerenciar Programas</a>
 {% endblock %}
