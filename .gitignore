@@ -1,6 +1,6 @@
 # Projeto
-inicializa_dados.py
-requirements.txt
+media/
+db.sqlite3
 
 # Python
 *.pyc
