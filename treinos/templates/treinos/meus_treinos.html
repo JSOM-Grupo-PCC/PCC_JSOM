@@ -1,0 +1,79 @@
+{% extends 'base_generic.html' %}
+{% block content %}
+  <h2>Meus Treinos</h2>
+  <ul>
+    {% for treino in treinos %}
+      <li>
+        <strong>{{ treino.descricao }}</strong><br>
+        Personal: {{ treino.personal.username }}<br>
+        Tipo: {{ treino.tipo }}<br>
+        <a href="#" onclick="document.getElementById('treino-{{ treino.id }}').style.display='block'">Ver Exercícios</a>
+        <div id="treino-{{ treino.id }}" style="display:none;">
+          <ul>
+            {% for execucao in treino.execucoes.all %}
+              <li>
+                <strong>Execução:</strong><br>
+                Série: {{ execucao.serie }}<br>
+                Repetições: {{ execucao.repeticoes }}<br>
+                Carga: 
+                {% if execucao.carga %}
+                  {{ execucao.carga }}kg
+                {% else %}
+                  Peso corporal
+                {% endif %}
+                <br>
+                Status: <input type="checkbox" class="status-checkbox" data-id="{{ execucao.id }}" {% if execucao.status %}checked{% endif %}><br>
+                <strong>Exercícios:</strong>
+                <ul>
+                  {% if execucao.exercicio %}
+                    <li>
+                      <strong>Nome:</strong> {{ execucao.exercicio.nome }}<br>
+                      <strong>Descrição:</strong> {{ execucao.exercicio.descricao }}<br>
+                      {% if execucao.exercicio.imagem %}
+                        <strong>Imagem:</strong> <img src="{{ execucao.exercicio.imagem.url }}" alt="{{ execucao.exercicio.nome }}" width="100"><br>
+                      {% else %}
+                        <strong>Imagem:</strong> Nenhuma imagem disponível<br>
+                      {% endif %}
+                    </li>
+                  {% else %}
+                    <li>Nenhum exercício encontrado</li>
+                  {% endif %}
+                </ul>
+              </li>
+            {% empty %}
+              <li>Nenhuma execução encontrada</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </li>
+    {% empty %}
+      <li>Nenhum treino encontrado</li>
+    {% endfor %}
+  </ul>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('.status-checkbox').change(function() {
+        var execucaoId = $(this).data('id');
+        var status = $(this).is(':checked');
+
+        $.ajax({
+          url: "{% url 'treinos:execucao_status' %}",
+          method: "POST",
+          data: {
+            'execucao_id': execucaoId,
+            'status': status,
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+          },
+          success: function(response) {
+            console.log('Status atualizado com sucesso.');
+          },
+          error: function(xhr, status, error) {
+            console.error('Erro ao atualizar status:', error);
+          }
+        });
+      });
+    });
+  </script>
+{% endblock %}

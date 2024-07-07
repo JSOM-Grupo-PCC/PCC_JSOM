@@ -1,10 +1,15 @@
 # urls.py
 from django.urls import path
-from . import views
+from treinos import views
+
+app_name = "treinos"
 
 urlpatterns = [
-    path('<int:treino_id>/execucao/', views.treino_list, name='treino_list'),
-    path('<int:treino_id>/execucao/new/', views.treino_create, name='treino_create'),
-    path('<int:treino_id>/execucao/<int:pk>/edit/', views.treino_update, name='treino_update'),
-    path('<int:treino_id>/execucao/<int:pk>/delete/', views.treino_delete, name='treino_delete'),
+    path('<int:aluno_id>/treino/', views.lista_treinos, name='lista_treinos'),
+    path('<int:aluno_id>/treino/novo/', views.criar_treino, name='criar_treino'),
+    path('<int:aluno_id>/treino/<int:pk>/editar/', views.editar_treino, name='editar_treino'),
+    path('<int:aluno_id>/treino/<int:pk>/excluir/', views.excluir_treino, name='excluir_treino'),
+
+    path('treinos/', views.meus_treinos, name='meus_treinos'),
+    path('execucao_status/', views.execucao_status, name='execucao_status'),
 ]

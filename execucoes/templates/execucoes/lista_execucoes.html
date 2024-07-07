@@ -1,0 +1,23 @@
+{% extends 'base_generic.html' %}
+{% block content %}
+  <h2>Execução do Exercicio: </h2>
+  <a href="{% url 'execucoes:criar_execucao' treino_id %}">Adicionar nova execução</a>
+  <ul>
+    {% for execucao in execucoes %}
+      <li>
+        {% if execucao.exercicio.imagem %}
+          <img src="{{ execucao.exercicio.imagem.url }}" alt="{{ exercicio.nome }}" style="max-width: 50px; max-height: 50px;">
+        {% endif %}
+        {{ execucao.exercicio.nome }} - Série: {{ execucao.serie }}, Repetições: {{ execucao.repeticoes }},         
+        Carga: 
+        {% if execucao.carga %}
+          {{ execucao.carga }}kg
+        {% else %}
+          Peso corporal
+        {% endif %}
+          <a href="{% url 'execucoes:editar_execucao' treino_id execucao.pk %}">Editar</a>
+          <a href="{% url 'execucoes:excluir_execucao' treino_id execucao.pk %}">Deletar</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

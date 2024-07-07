@@ -1,43 +1,79 @@
 # views.py
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
-from .models import Treino, Execucao
-from .forms import ExecucaoForm
+from django.contrib.auth.decorators import login_required, user_passes_test
+from treinos.models import Treino
+from execucoes.models import Execucao
+from treinos.forms import TreinoForm
 
-@login_required
-def treino_list(request, treino_id):
-    treinos = Execucao.objects.filter(treino_id=treino_id)
-    return render(request, 'treino_list.html', {'treinos': treinos, 'treino_id': treino_id})
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
+def is_personal(user):
+    return user.groups.filter(name="Personal").exists()
+
+personal_required = user_passes_test(is_personal, login_url='usuario:login')
+
+# +++++++++++++++++++++++++++++++++ Funcionalidades do aluno 
 @login_required
-def treino_create(request, treino_id):
+@csrf_exempt
+def execucao_status(request):
     if request.method == 'POST':
-        form = ExecucaoForm(request.POST)
+        execucao_id = request.POST.get('execucao_id')
+        status = request.POST.get('status') == 'true'
+
+        try:
+            execucao = Execucao.objects.get(id=execucao_id)
+            execucao.status = status
+            execucao.save()
+            return JsonResponse({'success': True})
+        except Execucao.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Execucao não encontrada'})
+
+    return JsonResponse({'success': False, 'error': 'Método inválido'})
+
+@login_required
+def meus_treinos(request):
+    treinos = Treino.objects.filter(aluno=request.user).prefetch_related('execucoes__exercicio')
+    return render(request, 'treinos/meus_treinos.html', {'treinos': treinos})
+
+# +++++++++++++++++++++++++++++++++ Funcionalidades do Personal
+@personal_required
+def lista_treinos(request, aluno_id):
+    treinos = Treino.objects.filter(aluno_id=aluno_id)
+    return render(request, 'treinos/lista_treinos.html', {'treinos': treinos, 'aluno_id': aluno_id})
+
+@personal_required
+def criar_treino(request, aluno_id):
+    personal = request.user
+    if request.method == 'POST':
+        form = TreinoForm(request.POST)
         if form.is_valid():
             treino = form.save(commit=False)
-            treino.treino_id = treino_id
+            treino.aluno_id = aluno_id
+            treino.personal = personal
             treino.save()
-            return redirect('treino_list', treino_id=treino_id)
+            form.save_m2m()  # Salva relações ManyToMany após o objeto ser salvo
+            return redirect('treinos:lista_treinos', aluno_id=aluno_id)
     else:
-        form = ExecucaoForm()
-    return render(request, 'treino_form.html', {'form': form, 'treino_id': treino_id})
+        form = TreinoForm()
+    return render(request, 'treinos/treino_forms.html', {'form': form, 'aluno_id': aluno_id})
 
-@login_required
-def treino_update(request, pk, treino_id):
-    treino = get_object_or_404(Execucao, pk=pk, treino_id=treino_id)
+@personal_required
+def editar_treino(request, aluno_id, pk):
+    treino = get_object_or_404(Treino, pk=pk, aluno_id=aluno_id)
     if request.method == 'POST':
-        form = ExecucaoForm(request.POST, instance=treino)
+        form = TreinoForm(request.POST, instance=treino)
         if form.is_valid():
             form.save()
-            return redirect('treino_list', treino_id=treino_id)
+            return redirect('treinos:lista_treinos', aluno_id=aluno_id)
     else:
-        form = ExecucaoForm(instance=treino)
-    return render(request, 'treino_form.html', {'form': form, 'treino_id': treino_id})
+        form = TreinoForm(instance=treino)
+    return render(request, 'treinos/treino_forms.html', {'form': form, 'aluno_id': aluno_id})
 
-@login_required
-def treino_delete(request, pk, treino_id):
-    treino = get_object_or_404(Execucao, pk=pk, treino_id=treino_id)
+@personal_required
+def excluir_treino(request, aluno_id, pk):
+    treino = get_object_or_404(Treino, pk=pk, aluno_id=aluno_id)
     if request.method == 'POST':
         treino.delete()
-        return redirect('treino_list', treino_id=treino_id)
-    return render(request, 'treino_confirm_delete.html', {'treino': treino, 'treino_id': treino_id})
+        return redirect('treinos:lista_treinos', aluno_id=aluno_id)
+    return render(request, 'treinos/confimacao_excluir_treino.html', {'treino': treino, 'aluno_id': aluno_id})

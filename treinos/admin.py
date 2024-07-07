@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import Execucao
+from treinos.models import Treino
 
-@admin.register(Execucao)
-class ExecucaoAdmin(admin.ModelAdmin):
-    list_display = ('treino', 'exercicio', 'serie', 'repeticoes', 'carga', 'status')
-    search_fields = ('treino__tipo', 'exercicio__nome')
-    list_filter = ('status', 'treino__tipo')
-    ordering = ('treino', 'exercicio')
+@admin.register(Treino)
+class TreinoAdmin(admin.ModelAdmin):
+    list_display = ('tipo', 'personal', 'aluno', 'descricao')
+    search_fields = ('tipo', 'personal__username', 'aluno__username')
+    list_filter = ('tipo',)
+    ordering = ('tipo',)

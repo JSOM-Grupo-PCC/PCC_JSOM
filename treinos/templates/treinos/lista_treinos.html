@@ -1,0 +1,16 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h2>Treinos</h2>
+  <a href="{% url 'treinos:criar_treino' aluno_id %}">Adicionar Novo Treino</a>
+  <ul>
+    {% for treino in treinos %}
+      <li>
+        {{ treino.tipo }} - {{ treino.descricao }}
+        <a href="{% url 'treinos:editar_treino' aluno_id treino.pk %}">Editar</a>
+        <a href="{% url 'treinos:excluir_treino' aluno_id treino.pk %}">Deletar</a>
+        <a href="{% url 'execucoes:lista_execucoes' treino.pk %}">Ver Exercicios</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

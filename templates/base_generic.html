@@ -21,6 +21,7 @@
                 {% else %}
                     (Aluno) 
                     | <a href="{% url 'avaliacoes:lista_avaliacoes' user.id %}">Minhas avaliações</a>
+                    | <a href="{% url 'treinos:meus_treinos' %}">Meus Treinos</a>
                 {% endif %}     
                 | <a href="{% url 'usuario:logout' %}">Logout</a> 
             </p>

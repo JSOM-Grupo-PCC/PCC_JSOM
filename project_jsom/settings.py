@@ -44,8 +44,8 @@ INSTALLED_APPS = [
     # APPs
     'usuarios',
     'avaliacoes',
-    'programas',
     'treinos',
+    'execucoes',
     'exercicios',
 ]
 

@@ -1,14 +1,11 @@
 from django.db import models
-from exercicios.models import Exercicio
-from programas.models import Treino
+from django.conf import settings
 
-class Execucao(models.Model):
-    treino = models.ForeignKey(Treino, on_delete=models.CASCADE)
-    serie = models.PositiveIntegerField()
-    repeticoes = models.PositiveIntegerField()
-    carga = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    status = models.BooleanField(default=False)
-    exercicio = models.ForeignKey(Exercicio, on_delete=models.CASCADE)
+class Treino(models.Model):
+    personal = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='treinos_como_personal')
+    aluno = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='treinos_como_aluno')
+    descricao = models.TextField()
+    tipo = models.CharField(max_length=255)
 
     def __str__(self):
-        return f"Execução de {self.treino.descricao} - {self.serie}x{self.repeticoes}"
+        return self.tipo

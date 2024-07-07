@@ -11,5 +11,5 @@
 <!-- Ações no Aluno -->
 <a href="{% url 'usuario:aluno_updade' aluno.id %}">Editar</a>
 <a href="{% url 'avaliacoes:lista_avaliacoes' aluno.id %}">Avaliar</a>
-<a href="{% url 'programa_list' aluno.id %}">Gerenciar Programas</a>
+<a href="{% url 'treinos:lista_treinos' aluno.id %}">Gerenciar Treinos</a>
 {% endblock %}

@@ -1,8 +1,8 @@
 # forms.py
 from django import forms
-from treinos.models import Execucao
+from treinos.models import Treino
 
-class ExecucaoForm(forms.ModelForm):
+class TreinoForm(forms.ModelForm):
     class Meta:
-        model = Execucao
-        fields = ['serie', 'repeticoes', 'carga', 'exercicio']
+        model = Treino
+        fields = ['descricao', 'tipo']
