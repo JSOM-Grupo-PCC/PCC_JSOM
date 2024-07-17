@@ -1,40 +1,91 @@
 {% load static %}
 {% load user_tags %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Meu Site{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% include "partials/head.html" %}
+    <title>{% block title %}{% endblock %}</title>
 </head>
-<body>
-    <header>
-        <h1>Bem-vindo ao Meu Site</h1>
-        {% if user.is_authenticated %}
-            <p>Olá, {{ user.username }}
-                {% if user|has_group:"Personal" %}
-                    (Personal)
-                    | <a href="{% url 'usuario:lista_alunos' %}">lista de alunos</a>
-                    | <a href="{% url 'exercicios:grupo_muscular_list' %}">Grupos Musculares</a>
-                    | <a href="{% url 'exercicios:exercicio_list' %}">Exercicios</a>
-                {% else %}
-                    (Aluno) 
-                    | <a href="{% url 'avaliacoes:lista_avaliacoes' user.id %}">Minhas avaliações</a>
-                    | <a href="{% url 'treinos:meus_treinos' %}">Meus Treinos</a>
-                {% endif %}     
-                | <a href="{% url 'usuario:logout' %}">Logout</a> 
-            </p>
-        {% else %}
-            <p>Você não está logado 
-                | <a href="{% url 'usuario:login' %}">Login</a>
-                | <a href="{% url "usuario:register" %}">register</a>
-            </p>
-        {% endif %}
-    </header>
-    <div>
-        {% block content %}
-        {% endblock %}
-    </div>
+
+<body class="g-sidenav-show bg-gray-100">
+
+    {% include "partials/aside.html" %} {% comment %} Incluindo Menu {% endcomment %}
+  
+    <main class="main-content border-radius-lg ">
+  
+      {% include "partials/navbar.html" %}  {% comment %}Incluindo NavBar {% endcomment %}
+  
+      <div class="container-fluid py-4">
+  
+        <div class="row"> 
+          <div class="w-100 position-relative z-index-2">
+            <div class="card card-plain mb-4">
+              <div class="card-body">
+                <div class="row">
+                  <div class="d-flex-collumn w-100 ">
+                    <!-- <div class="d-flex flex-column">
+                      <h2 class="font-weight-bolder mb-0 fs-1">{{ site_title }}</h2>
+                    </div> -->
+                    {% block content %} <!-- body do site --> {% endblock content %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </main>
+
+{% include "partials/settings_page.html" %}
+
+  <!--   Core JS Files   -->
+  <script src="{% static "assets/js/core/popper.min.js" %}"></script>
+  <script src="{% static "assets/js/core/bootstrap.min.js" %}"></script>
+  <script src="{% static "assets/js/plugins/perfect-scrollbar.min.js" %}"></script>
+  <script src="{% static "assets/js/plugins/smooth-scrollbar.min.js" %}"></script>
+
+
+<script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+
+    // Adicionar classe de ativação aos links
+    document.addEventListener("DOMContentLoaded", function() {
+        const navLinks = document.querySelectorAll("#nav-links .nav-link");
+      
+        // Verifica se a URL atual corresponde a algum dos links
+        navLinks.forEach(link => {
+          if (link.href === window.location.href) {
+            link.classList.add("active", "bg-gradient-primary_jsom");
+          }
+      
+          link.addEventListener("click", function() {
+            // Remove as classes "active" e "bg-gradient-primary_jsom" de todos os links
+            navLinks.forEach(link => link.classList.remove("active", "bg-gradient-primary_jsom"));
+            // Adiciona as classes "active" e "bg-gradient-primary_jsom" ao link clicado
+            this.classList.add("active", "bg-gradient-primary_jsom");
+          });
+        });
+      });
+      
+      // Duplicar o conteúdo do título na breadcrumb
+      const title = document.querySelector('title').textContent;
+      const breadcrumbTitle = document.getElementById('breadcrumb-title');
+      breadcrumbTitle.textContent = title;
+</script>
+
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="{% static "global/js/remove_class.js" %}"></script>
+  <script src="{% static "assets/js/material-dashboard.js" %}"></script>
 </body>
 </html>

@@ -12,10 +12,6 @@ def is_personal(user):
 personal_required = user_passes_test(is_personal, login_url='usuario:login')
 
 @login_required
-def index(request):
-    return render(request, 'index.html')
-
-@login_required
 @personal_required
 def lista_alunos(request):
     alunos = Usuario.objects.filter(groups__name='Aluno')
@@ -35,7 +31,6 @@ def aluno_updade(request, aluno_id):
     return render(request, 'usuarios/aluno_updade.html', {'form': form, 'aluno': aluno})
 
 @login_required
-@personal_required
 def aluno_perfil(request, aluno_id):
     aluno = get_object_or_404(Usuario, id=aluno_id)
     return render(request, 'usuarios/aluno_perfil.html', {'aluno': aluno})
@@ -52,7 +47,7 @@ def user_login(request):
                     if is_personal(user):
                         return redirect(reverse('usuario:lista_alunos'))
                     else:
-                        return redirect(reverse('usuario:index'))
+                        return redirect(reverse('treinos:meus_treinos'))
                 else:
                     return render(request, 'usuarios/login.html', {'form': form, 'error': 'Conta desativada'})
             else:

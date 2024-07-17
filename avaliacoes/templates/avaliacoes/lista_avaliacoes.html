@@ -1,7 +1,7 @@
 {% extends "base_generic.html" %}
 {% load user_tags %}
+{% block title %}Avaliações de {{ aluno.username }}{% endblock %}
 {% block content %}
-  <h1>Avaliações de {{ aluno.username }}</h1>
   {% if user|has_group:"Personal" %}  
     <a href="{% url 'avaliacoes:cria_avaliacao' aluno.id %}">Adicionar Avaliação</a>
   {% endif %} 
