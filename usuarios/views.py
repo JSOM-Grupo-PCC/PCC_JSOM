@@ -47,7 +47,7 @@ def user_login(request):
                     if is_personal(user):
                         return redirect(reverse('usuario:lista_alunos'))
                     else:
-                        return redirect(reverse('treinos:meus_treinos'))
+                        return redirect(reverse('usuario:aluno_perfil', kwargs={'aluno_id': user.id}))
                 else:
                     return render(request, 'usuarios/login.html', {'form': form, 'error': 'Conta desativada'})
             else:
@@ -69,7 +69,10 @@ def register(request):
             except Group.DoesNotExist:
                 print("O grupo 'Aluno' não existe. Certifique-se de que ele está criado no banco de dados.")
             login(request, new_user)
-            return redirect(reverse('usuario:index'))
+            if is_personal(new_user):
+                return redirect(reverse('usuario:lista_alunos'))
+            else:
+                return redirect(reverse('usuario:aluno_perfil', kwargs={'aluno_id': new_user.id}))
     else:
         user_form = UserRegistrationForm()
     return render(request, 'usuarios/register.html', {'user_form': user_form})
