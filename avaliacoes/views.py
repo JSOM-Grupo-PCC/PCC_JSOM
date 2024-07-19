@@ -10,11 +10,6 @@ def is_personal(user):
 personal_required = user_passes_test(is_personal, login_url='usuario:login')
 
 @login_required
-def detalhe_avaliacao(request, pk):
-    avaliacao = get_object_or_404(Avaliacao, pk=pk)
-    return render(request, 'avaliacoes/detalhe_avaliacao.html', {'avaliacao': avaliacao})
-
-@login_required
 def lista_avaliacoes(request, aluno_id):
     aluno = get_object_or_404(Usuario, id=aluno_id)
     avaliacoes = Avaliacao.objects.filter(aluno=aluno)
