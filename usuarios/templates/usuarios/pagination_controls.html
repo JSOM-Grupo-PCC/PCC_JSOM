@@ -1,0 +1,59 @@
+<nav aria-label="Page navigation example" >
+    <ul class="pagination justify-content-center justify-content-md-end">
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link card-hover_jsom" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">
+                    <span class="material-icons">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+                            <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
+                        </svg>
+                    </span>
+                </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a class="page-link card-hover_jsom" href="javascript:;" tabindex="-1">
+                    <span class="material-icons">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+                            <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
+                        </svg>
+                    </span>
+                </a>
+            </li>
+        {% endif %}
+        
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <li class="page-item active">
+                    <a class="page-link text-light bg-gradient-primary_jsom shadow-primary_jsom fw-bold" style="border: none;" href="javascript:;">{{ num }}</a>
+                </li>
+            {% else %}
+                <li class="page-item">
+                    <a class="page-link fw-bold" style="color: #7B809A !important;" href="?page={{ num }}">{{ num }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+        
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link card-hover_jsom" href="?page={{ page_obj.next_page_number }}">
+                    <span class="material-icons">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                            <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 0 0 1 0 1.506z"/>
+                        </svg>
+                    </span>
+                </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a class="page-link card-hover_jsom" href="javascript:;">
+                    <span class="material-icons">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                            <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 0 0 1 1.659-.753l5.48 4.796a1 0 0 1 0 1.506z"/>
+                        </svg>
+                    </span>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>

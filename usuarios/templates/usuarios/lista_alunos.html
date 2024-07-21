@@ -1,14 +1,64 @@
 {% extends "base_generic.html" %}
-
+{% block title %}Lista de Alunos{% endblock title %}
 {% block content %}
-<h2>Lista de Alunos</h2>
-<ul>
-    {% for aluno in alunos %}
-        <li>
-            <a href="{% url 'usuario:aluno_perfil' aluno.id %}">
-                {{ aluno.username }} - {{ aluno.get_full_name }}
-            </a>
-        </li>
-    {% endfor %}
-</ul>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+            <div class="input-group input-group-outline mb-4">
+                <label class="form-label text-nowrap">
+                  <i class="bi bi-search me-2"> </i>
+                  Buscar alunos...
+                </label>
+                <input type="search" id="search-alunos" class="form-control">
+            </div>
+        </div>    <!-- Controles de paginação -->
+        <div class="col">
+            {% include 'usuarios/pagination_controls.html' %}
+        </div>
+    </div>
+    <hr class="horizontal dark my-1 mb-4">
+    <div id="alunos-list" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
+        {% for aluno in page_obj %}
+            <div class="col">
+                <a href="{% url 'usuario:aluno_perfil' aluno.id %}" class="card-link text-white">
+                    <div class="card h-100 card-hover_jsom">
+                        <div class="nav-link-text card-body rounded-2 bg-gradient-primary_jsom">
+                            <h5 class="card-title text-decoration-underline text-white">@{{ aluno.username }}</h5>
+                            <h6 class="card-subtitle text-white-50">{{ aluno.get_full_name }}</h6>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            function loadPage(page, query = '') {
+                $.ajax({
+                    url: "{% url 'usuario:buscar_alunos' %}",
+                    type: "GET",
+                    data: {'query': query, 'page': page},
+                    success: function(data) {
+                        $('#alunos-list').html(data.html);
+                        $('.pagination').html(data.pagination);
+                    }
+                });
+            }
+    
+            $('#search-alunos').on('keyup', function() {
+                var query = $(this).val();
+                loadPage(1, query);  // Sempre vá para a primeira página ao buscar
+            });
+    
+            // Paginação via AJAX
+            $(document).on('click', '.pagination a', function(e) {
+                e.preventDefault();
+                var page = $(this).attr('href').split('page=')[1];
+                var query = $('#search-alunos').val();
+                loadPage(page, query);
+            });
+        });
+    </script>
+    
 {% endblock %}

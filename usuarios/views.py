@@ -5,6 +5,10 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import Group
 from usuarios.forms import UserLoginForm, UserRegistrationForm, UserEditForm
 from usuarios.models import Usuario
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+from django.db.models import Q
+from django.core.paginator import Paginator
 
 def is_personal(user):
     return user.groups.filter(name="Personal").exists()
@@ -12,10 +16,27 @@ def is_personal(user):
 personal_required = user_passes_test(is_personal, login_url='usuario:login')
 
 @login_required
+def buscar_alunos(request):
+    query = request.GET.get('query', '')
+    alunos = Usuario.objects.filter(
+        Q(groups__name='Aluno') & 
+        (Q(username__icontains=query) | Q(first_name__icontains=query) | Q(last_name__icontains=query))
+    )
+    paginator = Paginator(alunos, 20)  # Mostra 20 alunos por página.
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    html = render_to_string('usuarios/alunos_lista_parcial.html', {'page_obj': page_obj})
+    pagination_html = render_to_string('usuarios/pagination_controls.html', {'page_obj': page_obj})
+    return JsonResponse({'html': html, 'pagination': pagination_html})
+
+@login_required
 @personal_required
 def lista_alunos(request):
-    alunos = Usuario.objects.filter(groups__name='Aluno')
-    return render(request, 'usuarios/lista_alunos.html', {'alunos': alunos})
+    alunos_list = Usuario.objects.filter(groups__name='Aluno')
+    paginator = Paginator(alunos_list, 20)  # Mostra 20 alunos por página.
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'usuarios/lista_alunos.html', {'page_obj': page_obj})
 
 @login_required
 @personal_required
