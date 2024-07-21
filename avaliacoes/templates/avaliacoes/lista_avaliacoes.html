@@ -70,51 +70,53 @@
     </div>
   </div>
 </div>
-  {% if user|has_group:"Personal" %}
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header d-flex justify-content-md-between flex-wrap pb-0 px-3">
-            <div class="text-center mb-0 d-flex align-items-center ms-2">
-              <h6 class="ms-3">Informações de Avaliação do aluno
-                <span class="text-primary_jsom text-decoration-underline">{{ aluno.username }}</span>
-              </h6>
-            </div>
-            <div class=" mb-0 me-3">
-              <a class="btn mb-0 bg-gradient-primary_jsom mb-0 me-3" href="{% url 'avaliacoes:cria_avaliacao' aluno.id %}">
-                <i class="material-icons text-sm">add</i>&nbsp;&nbsp;Adicionar Avaliação
-              </a>
-            </div>
-          </div>
-          <div class="card-body pt-4 p-3">
-            <ul class="list-group">
-              {% for avaliacao in avaliacoes %}
-                <li class="list-group-item border-0 d-flex flex-wap p-4 mb-2 bg-gray-100 border-radius-lg">
-                  <div class="d-flex flex-column">
-                    <h6 class="mb-3 text-sm">Avaliação em {{ avaliacao.data_avaliacao|date:"j N Y à\s H:i" }}</h6>
-                    <span class="mb-2 text-xs">Peso: <span class="text-dark font-weight-bold ms-sm-2">{{ avaliacao.peso }} kg</span></span>
-                    <span class="mb-2 text-xs">Altura: <span class="text-dark ms-sm-2 font-weight-bold">{{ avaliacao.altura }} m</span></span>
-                    <span class="text-xs">Observação: <span class="text-dark ms-sm-2 font-weight-bold">{{ avaliacao.observacao }}</span></span>
-                  </div>
-                  <div class="ms-auto text-end">
-                    <form class="d-inline" method="post" action="{% url 'avaliacoes:deleta_avaliacao' avaliacao.id %}" onsubmit="return confirm('Você tem certeza que deseja excluir esta avaliação?');">
-                      {% csrf_token %}
-                      <button type="submit" class="btn btn-link text-danger text-gradient px-3 mb-0">
-                        <i class="material-icons text-sm me-2">delete</i>Deletar
-                      </button>
-                    </form>
-                    <a class="btn btn-link text-dark px-3 mb-0" href="{% url 'avaliacoes:atualiza_avaliacao' avaliacao.id %}">
-                      <i class="material-icons text-sm me-2">edit</i>Editar
-                    </a>
-                  </div>
-                </li>
-              {% endfor %}
-            </ul>
-          </div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header d-flex justify-content-md-between flex-wrap pb-0 px-3">
+        <div class="text-center mb-0 d-flex align-items-center ms-2">
+          <h6 class="ms-3 fs-3 text-center fw-bold ">Informações de Avaliação do aluno
+            <span class="text-primary_jsom text-decoration-underline">{{ aluno.username }}</span>
+          </h6>
         </div>
+        {% if user|has_group:"Personal" %}
+          <div class=" mb-0 me-3">
+            <a class="btn mb-0 bg-gradient-primary_jsom mb-0 me-3" href="{% url 'avaliacoes:cria_avaliacao' aluno.id %}">
+              <i class="material-icons text-sm">add</i>&nbsp;&nbsp;Adicionar Avaliação
+            </a>
+          </div>
+        {% endif %}
+      </div>
+      <div class="card-body pt-4 p-3">
+        <ul class="list-group">
+          {% for avaliacao in avaliacoes %}
+            <li class="list-group-item border-0 d-flex flex-wap p-4 mb-2 bg-gray-100 border-radius-lg">
+              <div class="d-flex flex-column">
+                <h6 class="mb-3 text-sm">Avaliação em {{ avaliacao.data_avaliacao|date:"j N Y à\s H:i" }}</h6>
+                <span class="mb-2 text-xs">Peso: <span class="text-dark font-weight-bold ms-sm-2">{{ avaliacao.peso }} kg</span></span>
+                <span class="mb-2 text-xs">Altura: <span class="text-dark ms-sm-2 font-weight-bold">{{ avaliacao.altura }} m</span></span>
+                <span class="text-xs">Observação: <span class="text-dark ms-sm-2 font-weight-bold">{{ avaliacao.observacao }}</span></span>
+              </div>
+              {% if user|has_group:"Personal" %}
+                <div class="ms-auto text-end">
+                  <form class="d-inline" method="post" action="{% url 'avaliacoes:deleta_avaliacao' avaliacao.id %}" onsubmit="return confirm('Você tem certeza que deseja excluir esta avaliação?');">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-link text-danger text-gradient px-3 mb-0">
+                      <i class="material-icons text-sm me-2">delete</i>Deletar
+                    </button>
+                  </form>
+                  <a class="btn btn-link text-dark px-3 mb-0" href="{% url 'avaliacoes:atualiza_avaliacao' avaliacao.id %}">
+                    <i class="material-icons text-sm me-2">edit</i>Editar
+                  </a>
+                </div>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
       </div>
     </div>
-  {% endif %}
+  </div>
+</div>
   <script>
     // Prepare os dados para os gráficos
     var avaliacaoDatas = [{% for avaliacao in avaliacoes %}"{{ avaliacao.data_avaliacao|date:'Y-m-d' }}"{% if not forloop.last %},{% endif %}{% endfor %}];
