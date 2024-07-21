@@ -1,10 +1,10 @@
 {% for aluno in page_obj %}
     <div class="col">
         <a href="{% url 'usuario:aluno_perfil' aluno.id %}" class="card-link text-white">
-            <div class="card h-100 card-hover_jsom ">
+            <div class="card h-100 card-hover_jsom">
                 <div class="nav-link-text card-body rounded-2 bg-gradient-primary_jsom">
                     <h5 class="card-title text-decoration-underline text-white">@{{ aluno.username }}</h5>
-                    <h6 class="card-subtitle text-branco-50">{{ aluno.get_full_name }}</h6>
+                    <h6 class="card-subtitle text-white-50">{{ aluno.get_full_name }}</h6>
                 </div>
             </div>
         </a>
