@@ -9,7 +9,8 @@ urlpatterns = [
     path('grupos/', views.grupo_muscular_list, name='grupo_muscular_list'),
     path('grupos/criar/', views.grupo_muscular_create, name='grupo_muscular_create'),
     path('grupos/<int:pk>/editar/', views.grupo_muscular_update, name='grupo_muscular_update'),
-    path('grupos/<int:pk>/excluir/', views.grupo_muscular_delete, name='grupo_muscular_delete'),
+    path('<int:pk>/deletar/', views.grupo_muscular_delete, name='grupo_muscular_delete'),
+    # path('grupos/<int:pk>/excluir/', views.grupo_muscular_delete, name='grupo_muscular_delete'),
 
     # Exercicios
     path('', views.exercicio_list, name='exercicio_list'),
