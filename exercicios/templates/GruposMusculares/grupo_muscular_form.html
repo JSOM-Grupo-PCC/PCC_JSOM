@@ -1,10 +1,59 @@
 {% extends 'base_generic.html' %}
+{% block title %}
+  {% if form.instance.pk %}
+    Editar
+  {% else %}
+    Adicionar
+  {% endif %} 
+  Grupo Muscular
+{% endblock title %}
+
 
 {% block content %}
-  <h2>{% if form.instance.pk %}Editar{% else %}Adicionar{% endif %} Exercício</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Salvar</button>
-  </form>
+<div class="container mb-3">
+  <div class="row">
+    <div class="col-md-10 mx-auto">
+      <form role="form" class="row g-3 d-flex flex-column align-items-center" method="POST" >
+          <h2 class="font-weight-bolder mb-0 col-md-6 text-center">
+            {% if form.instance.pk %}
+              Editar
+            {% else %}
+              Adicionar
+            {% endif %} 
+            Grupo Muscular 
+            <span class="text-primary_jsom text-decoration-underline">
+            {% if form.instance.pk %}
+              {{form.instance.nome}}
+            {% endif %}
+            </span>
+          </h2>
+          {% csrf_token %}
+          {% for field in form %}
+              <p class="help-text fw-bold ">
+                  {{ field.errors }}
+              </p>
+              <div class=" d-flex align-items-center col-md-6">
+                  <div 
+                  class="input-group input-group-outline
+                    {% if form.instance.pk %}
+                      is-filled
+                    {% endif %}
+                  ">
+                      <label for="{{field.id_for_label}}" class="form-label">
+                          {{field.label}}
+                          {% if field.help_text %}
+                              {{ field.help_text }}
+                          {% endif %}
+                      </label>
+                      {{ field }}
+                  </div>
+              </div>
+          {% endfor %}
+          <div class="col-md-6">
+              <button class="btn bg-gradient-primary_jsom mb-2 w-100 fs-6" type="submit">Salvar</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
