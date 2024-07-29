@@ -1,79 +1,84 @@
 {% extends 'base_generic.html' %}
+{% block title %}Meus Treinos{% endblock title %}
 {% block content %}
-  <h2>Meus Treinos</h2>
-  <ul>
-    {% for treino in treinos %}
-      <li>
-        <strong>{{ treino.descricao }}</strong><br>
-        Personal: {{ treino.personal.username }}<br>
-        Tipo: {{ treino.tipo }}<br>
-        <a href="#" onclick="document.getElementById('treino-{{ treino.id }}').style.display='block'">Ver Exercícios</a>
-        <div id="treino-{{ treino.id }}" style="display:none;">
-          <ul>
-            {% for execucao in treino.execucoes.all %}
-              <li>
-                <strong>Execução:</strong><br>
-                Série: {{ execucao.serie }}<br>
-                Repetições: {{ execucao.repeticoes }}<br>
-                Carga: 
-                {% if execucao.carga %}
-                  {{ execucao.carga }}kg
-                {% else %}
-                  Peso corporal
-                {% endif %}
-                <br>
-                Status: <input type="checkbox" class="status-checkbox" data-id="{{ execucao.id }}" {% if execucao.status %}checked{% endif %}><br>
-                <strong>Exercícios:</strong>
-                <ul>
-                  {% if execucao.exercicio %}
-                    <li>
-                      <strong>Nome:</strong> {{ execucao.exercicio.nome }}<br>
-                      <strong>Descrição:</strong> {{ execucao.exercicio.descricao }}<br>
-                      {% if execucao.exercicio.imagem %}
-                        <strong>Imagem:</strong> <img src="{{ execucao.exercicio.imagem.url }}" alt="{{ execucao.exercicio.nome }}" width="100"><br>
-                      {% else %}
-                        <strong>Imagem:</strong> Nenhuma imagem disponível<br>
-                      {% endif %}
-                    </li>
-                  {% else %}
-                    <li>Nenhum exercício encontrado</li>
-                  {% endif %}
-                </ul>
-              </li>
-            {% empty %}
-              <li>Nenhuma execução encontrada</li>
-            {% endfor %}
-          </ul>
+
+<div class="w-100 table-responsive">
+  <h1 class="mt-3 mb-3 fs-1 form-text text-center">Lista de Treinos</h1>
+  {% if treinos %}
+      <div class="container mb-3">
+        <div class="row">
+          <div class="col-md-10 mx-auto">
+            <div class="accordion" id="accordionTreinos">
+              {% for treino in treinos %}
+                <div class="accordion-item mb-2">
+                  <h3 class="accordion-header" id="heading{{ treino.id }}">
+                    <button class="accordion-button border-bottom-2 font-weight-bold collapsed fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ treino.id }}" aria-expanded="false" aria-controls="collapse{{ treino.id }}">
+                      {{ treino.descricao }} - {{ treino.tipo }}
+                      <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
+                      <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
+                    </button>
+                  </h3>
+                  <div id="collapse{{ treino.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ treino.id }}" data-bs-parent="#accordionTreinos">
+                    <div class="accordion-body">
+                      <ul class="list-group">
+                        {% for execucao in treino.execucoes.all %}
+                          <div class="accordion-body text-lg opacity-8 accordion d-flex justify-content-between">
+                            <span class="exercicio-link fw-bolder" data-id="{{ execucao.id }}" data-nome="{{ execucao.exercicio.nome }}" data-descricao="{{ execucao.exercicio.descricao }}" data-carga="{{ execucao.carga }}" data-serie="{{ execucao.serie }}" data-repeticoes="{{ execucao.repeticoes }}" data-imagem="{% if execucao.exercicio.imagem %}{{ execucao.exercicio.imagem.url }}{% endif %}">
+                              {{ execucao.exercicio.nome }}
+                            </span>
+                            <div class="form-check form-check-info text-start ps-0">
+                              <input type="checkbox" class="status-checkbox form-check-input" data-id="{{ execucao.id }}" {% if execucao.status %}checked{% endif %}>
+                            </div>
+                          </div>
+                          <hr class="horizontal my-0 light">
+                        {% empty %}
+                          <li class="list-group-item">Nenhuma execução encontrada</li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
         </div>
-      </li>
-    {% empty %}
-      <li>Nenhum treino encontrado</li>
-    {% endfor %}
-  </ul>
+      </div>
+  {% else %}
+    <div class="alert bg-gradient-primary_jsom alert-dismissible d-flex justify-content-center mx-4" role="alert">
+      <p class="fs-5 m-0">
+        <strong class="text-branco-50">Atenção!</strong>
+        <span class="text-branco-50">Não existe nenhum treino aqui ainda!</span>
+        <span class="text-branco-90 fw-bold"> Peça para seu personal adicionar a sua lista de treinos!</span>
+      </p>
+    </div>
+  {% endif %}
+</div>
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script>
-    $(document).ready(function() {
-      $('.status-checkbox').change(function() {
-        var execucaoId = $(this).data('id');
-        var status = $(this).is(':checked');
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-        $.ajax({
-          url: "{% url 'treinos:execucao_status' %}",
-          method: "POST",
-          data: {
-            'execucao_id': execucaoId,
-            'status': status,
-            'csrfmiddlewaretoken': '{{ csrf_token }}'
-          },
-          success: function(response) {
-            console.log('Status atualizado com sucesso.');
-          },
-          error: function(xhr, status, error) {
-            console.error('Erro ao atualizar status:', error);
-          }
-        });
+<script>
+  $(document).ready(function(){
+    $('.status-checkbox').change(function(){
+      var execucaoId = $(this).data('id');
+      var status = $(this).is(':checked');
+      $.ajax({
+        url: "{% url 'treinos:execucao_status' %}",
+        method: "POST",
+        data: {
+          'execucao_id': execucaoId,
+          'status': status,
+          'csrfmiddlewaretoken': '{{ csrf_token }}'
+        },
+        success: function(response){
+          console.log('Status atualizado com sucesso.');
+        },
+        error: function(xhr, status, error){
+          console.error('Erro ao atualizar status:', error);
+        }
       });
     });
-  </script>
+  });
+</script>
+
 {% endblock %}
