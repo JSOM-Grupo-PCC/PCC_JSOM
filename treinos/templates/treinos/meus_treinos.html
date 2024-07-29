@@ -54,6 +54,35 @@
   {% endif %}
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="exercicioModal" tabindex="-1" role="dialog" aria-labelledby="exercicioModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content dark-version">
+      <div class="modal-header" style="border: none;">
+        <h6 class="modal-title font-weight-normal text-dark" id="exercicioModalLabel">Detalhes do Exercício</h6>
+        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <hr class="horizontal my-0 light">
+      <div class="modal-body">
+        <h6 id="modalNome"></h6>
+        <p id="modalDescricao"></p>
+        <p><strong>Carga:</strong> <span id="modalCarga"></span> Kg</p>
+        <p><strong>Série:</strong> <span id="modalSerie"></span></p>
+        <p><strong>Repetições:</strong> <span id="modalRepeticoes"></span></p>
+        <a class="d-block blur-shadow-image">
+            <img id="modalImagem" src=""  alt="img-blur-shadow" class="img-fluid shadow rounded-3 p-2 bg-light w-100">
+        </a>
+      </div>
+      <hr class="horizontal my-0 light">
+      <div class="modal-footer" style="border: none;">
+        <button type="button" class="btn bg-gradient-primary_jsom  ml-auto" data-bs-dismiss="modal">Voltar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -77,6 +106,33 @@
           console.error('Erro ao atualizar status:', error);
         }
       });
+    });
+
+    $('.exercicio-link').click(function(){
+      var nome = $(this).data('nome');
+      var descricao = $(this).data('descricao');
+      var carga = $(this).data('carga');
+      var serie = $(this).data('serie');
+      var repeticoes = $(this).data('repeticoes');
+      var imagem = $(this).data('imagem');
+
+      $('#modalNome').text(nome);
+      $('#modalDescricao').text(descricao);
+      $('#modalCarga').text(carga);
+      $('#modalSerie').text(serie);
+      $('#modalRepeticoes').text(repeticoes);
+      if (imagem) {
+        $('#modalImagem').attr('src', imagem).show();
+      } else {
+        $('#modalImagem').hide();
+      }
+
+      // Remover backdrop ao mostrar modal
+      $('#exercicioModal').on('shown.bs.modal', function () {
+        $('.modal-backdrop').remove();
+      });
+
+      $('#exercicioModal').modal('show');
     });
   });
 </script>
