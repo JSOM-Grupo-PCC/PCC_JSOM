@@ -37,9 +37,10 @@
     ````bash
    python manage.py makemigrations
    python manage.py migrate
-5. **Execute o arquivo inicializa_dados.py:**
+5. **Execute os arquivos inicializa_dados.py e inicializar_alunos.py:**
     ````bash
    python inicializa_dados.py
+   python inicializar_alunos.py.py
 6. **Execução do Servidor de Desenvolvimento:**
     ````bash
    python manage.py runserver

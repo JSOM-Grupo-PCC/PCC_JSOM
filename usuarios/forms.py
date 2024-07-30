@@ -1,8 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
+from usuarios.models import Usuario
 
 class UserEditForm(UserChangeForm):
     data_nascimento = forms.DateField(
@@ -14,7 +12,7 @@ class UserEditForm(UserChangeForm):
     )
 
     class Meta:
-        model = User
+        model = Usuario
         fields = ('username', 'email', 'first_name', 'last_name', 'cpf', 'data_nascimento', 'endereco')
 
     def __init__(self, *args, **kwargs):
@@ -33,7 +31,7 @@ class UserRegistrationForm(UserCreationForm):
     endereco = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'form-control mb-2 text-white'}))
 
     class Meta:
-        model = User
+        model = Usuario
         fields = ('username', 'password1', 'password2', 'email', 'first_name', 'last_name', 'cpf', 'data_nascimento', 'endereco')
 
     def __init__(self, *args, **kwargs):

@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from treinos.models import Treino
 from execucoes.models import Execucao
 from treinos.forms import TreinoForm
+from usuarios.models import Usuario
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -44,7 +45,7 @@ def lista_treinos(request, aluno_id):
 
 @personal_required
 def criar_treino(request, aluno_id):
-    personal = request.user
+    personal = get_object_or_404(Usuario, id=request.user.id)  # Converte request.user para Usuario
     if request.method == 'POST':
         form = TreinoForm(request.POST)
         if form.is_valid():

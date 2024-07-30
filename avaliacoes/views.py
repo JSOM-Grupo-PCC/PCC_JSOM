@@ -23,7 +23,7 @@ def cria_avaliacao(request, aluno_id):
         form = AvaliacaoForm(request.POST)
         if form.is_valid():
             avaliacao = form.save(commit=False)
-            avaliacao.profissional = request.user
+            avaliacao.personal = get_object_or_404(Usuario, id=request.user.id)  # Converte request.user para Usuario
             avaliacao.aluno = aluno
             avaliacao.save()
             return redirect('avaliacoes:lista_avaliacoes', aluno_id=aluno.id)
