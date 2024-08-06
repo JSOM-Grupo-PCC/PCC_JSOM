@@ -15,7 +15,7 @@ def lista_avaliacoes(request, aluno_id):
     avaliacoes = Avaliacao.objects.filter(aluno=aluno)
     return render(request, 'avaliacoes/lista_avaliacoes.html', {'avaliacoes': avaliacoes, 'aluno': aluno})
 
-@login_required
+
 @personal_required
 def cria_avaliacao(request, aluno_id):
     aluno = get_object_or_404(Usuario, id=aluno_id)
@@ -31,7 +31,6 @@ def cria_avaliacao(request, aluno_id):
         form = AvaliacaoForm()
     return render(request, 'avaliacoes/cria_avaliacao.html', {'form': form, 'aluno': aluno})
 
-@login_required
 @personal_required
 def atualiza_avaliacao(request, avaliacao_id):
     avaliacao = get_object_or_404(Avaliacao, id=avaliacao_id)
@@ -44,7 +43,6 @@ def atualiza_avaliacao(request, avaliacao_id):
         form = AvaliacaoForm(instance=avaliacao)
     return render(request, 'avaliacoes/atualiza_avaliacao.html', {'form': form, 'avaliacao': avaliacao})
 
-@login_required
 @personal_required
 def deleta_avaliacao(request, avaliacao_id):
     avaliacao = get_object_or_404(Avaliacao, id=avaliacao_id)

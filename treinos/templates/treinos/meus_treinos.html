@@ -2,7 +2,7 @@
 {% block title %}Meus Treinos{% endblock title %}
 {% block content %}
 
-<div class="w-100 table-responsive">
+<div class="w-100">
   <h1 class="mt-3 mb-3 fs-1 form-text text-center">Lista de Treinos</h1>
   {% if treinos %}
       <div class="container mb-3">
@@ -26,8 +26,23 @@
                             <span class="exercicio-link fw-bolder" data-id="{{ execucao.id }}" data-nome="{{ execucao.exercicio.nome }}" data-descricao="{{ execucao.exercicio.descricao }}" data-carga="{{ execucao.carga }}" data-serie="{{ execucao.serie }}" data-repeticoes="{{ execucao.repeticoes }}" data-imagem="{% if execucao.exercicio.imagem %}{{ execucao.exercicio.imagem.url }}{% endif %}">
                               {{ execucao.exercicio.nome }}
                             </span>
-                            <div class="form-check form-check-info text-start ps-0">
-                              <input type="checkbox" class="status-checkbox form-check-input" data-id="{{ execucao.id }}" {% if execucao.status %}checked{% endif %}>
+                            <div class="checkbox-wrapper-12">
+                              <div class="cbx">
+                                <input {% if execucao.status %}checked{% endif %} type="checkbox" data-id="{{ execucao.id }}" class="status-checkbox">
+                                <label for="cbx-12" style="margin: 0 !important;"></label>
+                                <svg fill="none" viewBox="0 0 15 14" height="14" width="15">
+                                  <path d="M2 8.36364L6.23077 12L13 2"></path>
+                                </svg>
+                              </div>
+                              <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                  <filter id="goo-12">
+                                    <feGaussianBlur result="blur" stdDeviation="4" in="SourceGraphic"></feGaussianBlur>
+                                    <feColorMatrix result="goo-12" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -7" mode="matrix" in="blur"></feColorMatrix>
+                                    <feBlend in2="goo-12" in="SourceGraphic"></feBlend>
+                                  </filter>
+                                </defs>
+                              </svg>
                             </div>
                           </div>
                           <hr class="horizontal my-0 light">
