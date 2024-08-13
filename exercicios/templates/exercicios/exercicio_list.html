@@ -5,60 +5,119 @@
   <div class="row">
     <div class="col-md-12">
       <div class="card">
-        <div class="card-header d-flex justify-content-md-between flex-wrap pb-0 px-3">
+        <div class="card-header d-flex justify-content-between flex-wrap pb-0 px-3">
           <div class="text-center mb-0 d-flex align-items-center ms-2">
-            <h6 class="ms-3 fs-3 text-center fw-bold ">Exercícios
-              <span class="text-primary_jsom text-decoration-underline">{{ aluno.username }}</span>
-            </h6>
+            <h6 class="ms-3 fs-3 text-center fw-bold ">Exercícios</h6>
           </div>
-            <div class=" mb-0 me-3">
-              <a href="{% url 'exercicios:exercicio_create' %}">
-                <button type="button" class="btn p-2 bg-gradient-primary_jsom icon-link icon-link-hover" style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" data-bs-toggle="tooltip" data-bs-placement="left" title="Adicionar">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
-                    </svg>
-                </button>
-              </a>
-            </div>
+          <div class=" mb-0 me-3">
+            <a href="{% url 'exercicios:exercicio_create' %}">
+              <button type="button" class="btn p-2 bg-gradient-primary_jsom icon-link icon-link-hover" style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" data-bs-toggle="tooltip" data-bs-placement="left" title="Adicionar">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                  </svg>
+              </button>
+            </a>
+          </div>
         </div>
         
         <div class="card-body pt-4 p-3">
-          <ul class="list-group">
-            {% for exercicio in exercicios %}
-            <hr class="horizontal dark my-2">
-              <li class="list-group-item border-0 d-flex flex-wap justify-content-between align-items-center">
-                  <p class="fw-bold">{{ exercicio.nome }} ({{ exercicio.grupo.nome }})</p>
-                  {% if exercicio.imagem %}
-                    <img src="{{ exercicio.imagem.url }}" alt="{{ exercicio.nome }}" style="max-width: 100px; max-height: 100px;">
-                  {% endif %}
-                  <div>
-                    
-                    {% comment %} Editar Grupo Muscular {% endcomment %}
-                    <a style="text-decoration: none;" href="{% url 'exercicios:exercicio_update' exercicio.pk %}">
-                      <button type="button" class="btn bg-gradient-primary_jsom p-2 icon-link icon-link-hover" style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" data-bs-toggle="tooltip" data-bs-placement="left" title="Editar">
+          <div class="table-responsive">
+            <table class="table">
+              <tbody>
+                {% for exercicio in exercicios %}
+                <tr> 
+                  <td class="fw-bold">{{ exercicio.nome }}</td>
+                  <td >({{ exercicio.grupo.nome }})</td>
+                  <td>
+                    {% if exercicio.imagem %}
+                    <img class="img-fluid shadow rounded-3 p-1 bg-light mx-2" src="{{ exercicio.imagem.url }}" alt="{{ exercicio.nome }}" style="max-width: 100px; max-height: 100px;">
+                    {% endif %}
+                  </td>
+                  <td class="d-flex justify-content-end">
+                    <div class="d-flex justify-content-between">
+                      <a style="text-decoration: none;" href="{% url 'exercicios:exercicio_update' exercicio.pk %}">
+                        <button type="button" class="btn bg-gradient-primary_jsom p-2 icon-link icon-link-hover ms-2 me-2" style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" data-bs-toggle="tooltip" data-bs-placement="left" title="Editar">
                           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                              <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                           </svg>
-                      </button>
-                    </a>
-
-                    {% comment %} DeletarGrupo Muscular {% endcomment %}
-                    <form class="d-inline" method="post" action="{% url 'exercicios:exercicio_delete' exercicio.pk %}" onsubmit="return confirm('Você tem certeza que deseja excluir este Exercicio?');">
-                      {% csrf_token %}
+                        </button>
+                      </a>
+                      <form class="d-inline" method="post" action="{% url 'exercicios:exercicio_delete' exercicio.pk %}" onsubmit="return confirm('Você tem certeza que deseja excluir este Exercicio?');">
+                        {% csrf_token %}
                         <button type="submit" class="btn bg-gradient-primary_jsom p-2 icon-link icon-link-hover" style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" data-bs-toggle="tooltip" data-bs-placement="left" title="Deletar">
                           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                              <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
                           </svg>
-                      </button>
-                    </form>
-                  </div>
-              </li>
-            {% endfor %}
-          </ul>
+                        </button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          
         </div>
       </div>
     </div>
 </div>
+
+<script>
+  function sortTable(n) {
+    const table = document.getElementById("exerciseTable");
+    let rows = Array.from(table.rows);
+    let switching = true;
+    let shouldSwitch, i;
+    let dir = "asc"; 
+    let switchCount = 0;
+  
+    while (switching) {
+      switching = false;
+      for (i = 0; i < rows.length - 1; i++) {
+        shouldSwitch = false;
+        let x = rows[i].getElementsByTagName("TD")[n];
+        let y = rows[i + 1].getElementsByTagName("TD")[n];
+        if (dir === "asc") {
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            shouldSwitch = true;
+            break;
+          }
+        } else if (dir === "desc") {
+          if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+            shouldSwitch = true;
+            break;
+          }
+        }
+      }
+      if (shouldSwitch) {
+        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+        switching = true;
+        switchCount++;
+      } else {
+        if (switchCount === 0 && dir === "asc") {
+          dir = "desc";
+          switching = true;
+        }
+      }
+    }
+  }
+  
+  function filterTable() {
+    const input = document.getElementById("searchInput");
+    const filter = input.value.toLowerCase();
+    const table = document.getElementById("exerciseTable");
+    const rows = table.getElementsByTagName("tr");
+  
+    for (let i = 0; i < rows.length; i++) {
+      const groupCell = rows[i].getElementsByTagName("td")[1];
+      if (groupCell) {
+        const groupText = groupCell.textContent || groupCell.innerText;
+        rows[i].style.display = groupText.toLowerCase().includes(filter) ? "" : "none";
+      }
+    }
+  }
+  </script>
 {% endblock %}
 

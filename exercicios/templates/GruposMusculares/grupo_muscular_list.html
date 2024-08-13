@@ -5,21 +5,19 @@
   <div class="row">
     <div class="col-md-12">
       <div class="card">
-        <div class="card-header d-flex justify-content-md-between flex-wrap pb-0 px-3 me-2">
-          <div class="text-center mb-0 d-flex align-items-center ms-2">
-            <h6 class="ms-3 fs-3 text-center fw-bold ">Grupos Musculares
-              <span class="text-primary_jsom text-decoration-underline">{{ aluno.username }}</span>
-            </h6>
+        <div class="card-header d-flex justify-content-between pb-0 px-3 me-2">
+          <div class=" mb-0 ms-2">
+            <h6 class="ms-3 fs-3 fw-bold ">Grupos Musculares</h6>
           </div>
-            <div class=" mb-0 me-3">
-              <a href="{% url 'exercicios:grupo_muscular_create' %}">
-                <button type="button" class="btn p-2 bg-gradient-primary_jsom icon-link icon-link-hover" style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" data-bs-toggle="tooltip" data-bs-placement="left" title="Adicionar">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
-                    </svg>
-                </button>
-              </a>
-            </div>
+          <div class=" mb-0 me-3">
+            <a href="{% url 'exercicios:grupo_muscular_create' %}">
+              <button type="button" class="btn p-2 bg-gradient-primary_jsom icon-link icon-link-hover" style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" data-bs-toggle="tooltip" data-bs-placement="left" title="Adicionar">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                  </svg>
+              </button>
+            </a>
+          </div>
         </div>
         
         <div class="card-body pt-4 p-3">

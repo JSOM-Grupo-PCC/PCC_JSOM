@@ -49,6 +49,16 @@
             </li>
           {% else %}
             <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'usuario:aluno_perfil' user.id %}">
+                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-person-fill opacity-10" viewBox="0 0 16 16">
+                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                  </svg>
+                </div>
+                <span class="nav-link-text ms-2 fw-medium fs-7">Meu Perfil</span>
+              </a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link text-white" href="{% url 'avaliacoes:lista_avaliacoes' user.id %}">
                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                   <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-card-checklist opacity-10" viewBox="0 0 24 24">
@@ -67,16 +77,6 @@
                   </svg>
                 </div>
                 <span class="nav-link-text ms-2 fw-medium fs-7">Meus Treinos</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-white" href="{% url 'usuario:aluno_perfil' user.id %}">
-                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-person-fill opacity-10" viewBox="0 0 16 16">
-                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-                  </svg>
-                </div>
-                <span class="nav-link-text ms-2 fw-medium fs-7">Meu Perfil</span>
               </a>
             </li>
           {% endif %}     

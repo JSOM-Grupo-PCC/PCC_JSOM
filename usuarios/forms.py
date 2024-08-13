@@ -6,7 +6,8 @@ class UserEditForm(UserChangeForm):
     data_nascimento = forms.DateField(
         widget=forms.NumberInput(
             attrs={
-                'type': 'date',  
+                'type': 'date',
+                'class': 'form-control' 
             }
         )
     )
@@ -17,7 +18,12 @@ class UserEditForm(UserChangeForm):
 
     def __init__(self, *args, **kwargs):
         super(UserEditForm, self).__init__(*args, **kwargs)
-        # self.fields['username'].disabled = True
+        # Iterar sobre os campos para adicionar classes
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+            if field_name == 'username':
+                field.help_text = None  # Removendo o texto de ajuda para 'username'
+
         # Remover o campo de senha
         if 'password' in self.fields:
             del self.fields['password']
