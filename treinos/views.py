@@ -41,7 +41,12 @@ def meus_treinos(request):
 @personal_required
 def lista_treinos(request, aluno_id):
     treinos = Treino.objects.filter(aluno_id=aluno_id)
-    return render(request, 'treinos/lista_treinos.html', {'treinos': treinos, 'aluno_id': aluno_id})
+    aluno = get_object_or_404(Usuario, id=aluno_id)  # Busca os dados do aluno, ou retorna 404 se não encontrar
+    return render(request, 'treinos/lista_treinos.html', 
+    {
+        'treinos': treinos,
+        'aluno': aluno  
+    })
 
 @personal_required
 def criar_treino(request, aluno_id):
@@ -76,5 +81,4 @@ def excluir_treino(request, aluno_id, pk):
     treino = get_object_or_404(Treino, pk=pk, aluno_id=aluno_id)
     if request.method == 'POST':
         treino.delete()
-        return redirect('treinos:lista_treinos', aluno_id=aluno_id)
-    return render(request, 'treinos/confimacao_excluir_treino.html', {'treino': treino, 'aluno_id': aluno_id})
+    return redirect('treinos:lista_treinos', aluno_id=aluno_id)

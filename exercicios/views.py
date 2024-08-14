@@ -42,8 +42,7 @@ def exercicio_delete(request, pk):
     exercicio = get_object_or_404(Exercicio, pk=pk)
     if request.method == 'POST':
         exercicio.delete()
-        return redirect('exercicios:exercicio_list')
-    return render(request, 'exercicios/exercicio_confirm_delete.html', {'exercicio': exercicio})
+    return redirect('exercicios:exercicio_list')
 
 @personal_required
 def grupo_muscular_list(request):
@@ -73,11 +72,9 @@ def grupo_muscular_update(request, pk):
         form = GrupoMuscularForm(instance=grupo)
     return render(request, 'GruposMusculares/grupo_muscular_form.html', {'form': form})
 
-
 @personal_required
 def grupo_muscular_delete(request, pk):
     grupo = get_object_or_404(GrupoMuscular, pk=pk)
     if request.method == 'POST':
         grupo.delete()
-        return redirect('exercicios:grupo_muscular_list')
-    return render(request, 'GruposMusculares/grupo_muscular_confirm_delete.html', {'grupo': grupo})
+    return redirect('exercicios:grupo_muscular_list')
