@@ -9,13 +9,17 @@
 ## Diagrama de classe
 ![Diagrama de classe](https://github.com/JSOM-Grupo-PCC/PCC_JSOM/assets/115905335/bb7f0da8-2d8e-4270-adc7-94f7ee66e79d)
 
+<hr>
+<br>
 
-<!--## Diagrama Caso de Uso
-![Caso de Uso](https://github.com/JSOM-Grupo-PCC/PrePCC_JSOM_/assets/115905335/50206489-0ab5-4f2a-b6a5-8d9334d95e3d)
+## Diagrama Caso de Uso
+![Diagrama Caso de Uso](https://github.com/user-attachments/assets/d1ccb18e-6d6c-402e-9d1a-077b4f2fa3f1)
 
+<hr>
+<br>
 
-## Diagrama Entidade de Relacionamentos 
-![Entidade de Relacionamentos](https://github.com/JSOM-Grupo-PCC/PrePCC_JSOM_/assets/115905335/db2f5622-ccba-4ad3-ae5f-b3a58fa8722c) -->
+## Diagrama Entidade de Relacionamentos
+![Diagrama Entidade de Relacionamentos](https://github.com/user-attachments/assets/c0a6a001-c530-4494-b637-1b74916ab2d1)
 
 ## Configuração do Ambiente
 
@@ -37,10 +41,16 @@
     ````bash
    python manage.py makemigrations
    python manage.py migrate
-5. **Execute os arquivos inicializa_dados.py e inicializar_alunos.py:**
+    
+5. **Execute os arquivos iniciar_dados.py:**
     ````bash
-   python inicializa_dados.py
-   python inicializar_alunos.py.py
+   python iniciar_dados.py
+    
 6. **Execução do Servidor de Desenvolvimento:**
     ````bash
    python manage.py runserver
+
+7. **Entre como Personal:**
+    ````bash
+   *username:* personal;
+   *password:* personal123;
