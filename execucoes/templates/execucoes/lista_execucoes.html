@@ -1,23 +1,78 @@
 {% extends 'base_generic.html' %}
+{% block title %}Execuções do Treino {{ treino.tipo }}{% endblock title %}
 {% block content %}
-  <h2>Execução do Exercicio: </h2>
-  <a href="{% url 'execucoes:criar_execucao' treino_id %}">Adicionar nova execução</a>
-  <ul>
-    {% for execucao in execucoes %}
-      <li>
-        {% if execucao.exercicio.imagem %}
-          <img src="{{ execucao.exercicio.imagem.url }}" alt="{{ exercicio.nome }}" style="max-width: 50px; max-height: 50px;">
-        {% endif %}
-        {{ execucao.exercicio.nome }} - Série: {{ execucao.serie }}, Repetições: {{ execucao.repeticoes }},         
-        Carga: 
-        {% if execucao.carga %}
-          {{ execucao.carga }}kg
-        {% else %}
-          Peso corporal
-        {% endif %}
-          <a href="{% url 'execucoes:editar_execucao' treino_id execucao.pk %}">Editar</a>
-          <a href="{% url 'execucoes:excluir_execucao' treino_id execucao.pk %}">Deletar</a>
-      </li>
-    {% endfor %}
-  </ul>
-{% endblock %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card ">
+            <div class="card-header d-flex justify-content-between  pb-0 px-3">
+                
+                <div class="mb-0 d-flex align-items-center ms-3">
+                    <h6 class=" fs-3 fw-bold">Execuções do treino 
+                      <span class="text-primary_jsom text-decoration-underline">{{ treino.tipo }}</span>
+                    </h6>
+                </div>
+                <div class="mb-0 mx-3">
+                    <a href="{% url 'execucoes:criar_execucao' treino.id %}">
+                        <button type="button" class="btn p-2 bg-gradient-primary_jsom icon-link icon-link-hover" style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" data-bs-toggle="tooltip" data-bs-placement="left" title="Adicionar">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                            </svg>
+                        </button>
+                    </a>
+                </div>
+            </div>
+
+            <div class="card-body pt-4 p-3">
+                <div class="table-responsive"> <!-- Added scrollable container -->
+                    <ul class="list-unstyled mx-3 mb-4">
+                        {% for execucao in execucoes %}
+                        <li class="d-flex align-items-center justify-content-between mb-2 shadow p-3 rounded-3" style="min-width: 800px;">
+                            <div class="d-flex flex-wrap align-items-center " style="gap: 20px;">
+                                <div class="fs-5 fw-bold">{{ execucao.exercicio.nome }}</div> |
+                                <div><span class="fw-bold">Série:</span> {{ execucao.serie }}</div>
+                                <div><span class="fw-bold">Repetições:</span> {{ execucao.repeticoes }}</div>
+                                <div><span class="fw-bold">Carga:</span> 
+                                    {% if execucao.carga %}
+                                      {{ execucao.carga }}kg
+                                    {% else %}
+                                      Peso corporal
+                                    {% endif %}
+                                </div>
+                                {% if execucao.exercicio.imagem %}
+                                <div>
+                                  {% if execucao.exercicio.imagem %}
+                                  <img class="img-fluid shadow rounded-3 p-1 bg-light mx-2" src="{{ execucao.exercicio.imagem.url }}" alt="{{ execucao.exercicio.nome }}" style="max-width: 100px; max-height: 100px;">
+                                  {% endif %}
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <a style="text-decoration: none;" href="{% url 'execucoes:editar_execucao' treino.id execucao.pk %}">
+                                    <button type="button" class="btn bg-gradient-primary_jsom p-2 icon-link icon-link-hover ms-2 me-2" style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" data-bs-toggle="tooltip" data-bs-placement="left" title="Editar">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                        </svg>
+                                    </button>
+                                </a>
+                                <form class="d-inline" method="post" action="{% url 'execucoes:excluir_execucao' treino.id execucao.pk %}" onsubmit="return confirm('Você tem certeza que deseja excluir esta Execução?');">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn bg-gradient-primary_jsom p-2 icon-link icon-link-hover" style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" data-bs-toggle="tooltip" data-bs-placement="left" title="Deletar">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+                                    </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}

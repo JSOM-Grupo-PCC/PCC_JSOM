@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import user_passes_test
 from execucoes.models import Execucao
+from treinos.models import Treino
 from execucoes.forms import ExecucaoForm
 
 def is_personal(user):
@@ -9,9 +10,10 @@ def is_personal(user):
 personal_required = user_passes_test(is_personal, login_url='usuario:login')
 
 @personal_required
-def lista_execucoes(request, treino_id):
+def lista_execucoes(request, treino_id,):
+    treino = get_object_or_404(Treino, id=treino_id) 
     execucoes = Execucao.objects.filter(treino_id=treino_id)
-    return render(request, 'execucoes/lista_execucoes.html', {'execucoes': execucoes, 'treino_id': treino_id})
+    return render(request, 'execucoes/lista_execucoes.html', {'execucoes': execucoes, 'treino': treino})
 
 @personal_required
 def criar_execucao(request, treino_id):
@@ -43,5 +45,4 @@ def excluir_execucao(request, pk, treino_id):
     execucao = get_object_or_404(Execucao, pk=pk, treino_id=treino_id)
     if request.method == 'POST':
         execucao.delete()
-        return redirect('execucoes:lista_execucoes', treino_id=treino_id)
-    return render(request, 'execucoes/confirma_excluir_execucao.html', {'execucao': execucao, 'treino_id': treino_id})
+    return redirect('execucoes:lista_execucoes', treino_id=treino_id)
