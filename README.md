@@ -7,7 +7,7 @@
 <br> 
   
 ## Diagrama de classe
-![Diagrama de classe](https://github.com/JSOM-Grupo-PCC/PCC_JSOM/assets/115905335/bb7f0da8-2d8e-4270-adc7-94f7ee66e79d)
+![Diagrama de classe](https://github.com/user-attachments/assets/4ad2e91c-4063-4698-8061-0384af42e4b7)
 
 <hr>
 <br>
