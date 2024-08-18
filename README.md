@@ -31,7 +31,7 @@
 2. **Configuração do Ambiente Virtual:**
    ```bash
    python -m venv venv
-   source venv/bin/activate  # No Windows: .\venv\Scripts\activate
+   .\venv\Scripts\Activate.ps1
 
 3. **Instalação das Dependências:**
     ````bash
